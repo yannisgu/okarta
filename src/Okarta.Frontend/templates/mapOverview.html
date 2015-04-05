@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="//openlayers.org/en/v3.4.0/css/ol.css" type="text/css">
+<script src="//openlayers.org/en/v3.4.0/build/ol.js" type="text/javascript"></script>
+
+<openlayers ol-center="myCenter"  custom-layers="true">
+  <ol-layer ol-layer-properties="{'source':
+    {
+    'type': 'BingMaps',
+      'key': 'ArrGmnldg4Td0C-f2G3mORjdryVUOF3S0P0YGFB_Q6sVl-BMd8Zg20xsGk11Int6',
+      'imagerySet': 'Road'
+    }}"></ol-layer>
+    <ol-marker ng-repeat="map in maps" ol-marker-properties="map">
+      <h4>{{map.name}}</h4>
+      <a ng-href="/#/map/{{map.id}}">Mehr Informationen</a>
+    </ol-marker>
+</openlayers>

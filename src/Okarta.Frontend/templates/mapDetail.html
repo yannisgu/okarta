@@ -1,0 +1,12 @@
+<div ng-show="map">
+  <h1>{{map.name}}</h1>
+  <openlayers ol-center="mapCenter"  custom-layers="true">
+    <ol-layer ol-layer-properties="{'source':
+      {
+      'type': 'BingMaps',
+        'key': 'ArrGmnldg4Td0C-f2G3mORjdryVUOF3S0P0YGFB_Q6sVl-BMd8Zg20xsGk11Int6',
+        'imagerySet': 'Road'
+      }}"></ol-layer>
+    <ol-marker ng-repeat="marker in markers" lat="marker.lat" lon="marker.lon"></ol-marker>
+  </openlayers>
+</div>
