@@ -1,4 +1,5 @@
 ﻿using BamPi.EntityFramework;
+using BamPi.NHibernate;
 using ConfigR;
 using Okarta.Data;
 using Okarta.Data.Entities;
@@ -11,7 +12,7 @@ namespace Okarta.Web
     {
         public MapsApiDefinition()
         {
-            DataContext = new BamPiEfDataConext(() => new DataContext());
+            DataContext = new BamPiNHibernateDataContext(new DataSession().GetSession());
 
             Get["/maps"] = Query<Map>();
         }

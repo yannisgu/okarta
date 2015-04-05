@@ -2,13 +2,17 @@
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using ConfigR;
 using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Conventions;
 using Nancy.Responses.Negotiation;
 using Newtonsoft.Json;
+using NHibernate.Linq;
 using Okarta.Data;
+using Okarta.Data.Entities;
 
 namespace Okarta.Web
 {
@@ -17,14 +21,23 @@ namespace Okarta.Web
         public Bootstrapper()
         {
             Config.Global.LoadScriptFile("Settings.csx");
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, OkartaMigrationConfiguration>()); 
-            if (Config.Global.Get<bool>("insertTestData"))
-            {
+            if (Config.Global.Get<bool>("insertTestData")) 
+            { 
                 var testData = JsonConvert.DeserializeObject<TestData>(File.ReadAllText("TestData.json"));
-                using (var dbContext = new DataContext())
+                using (var session = (new DataSession()).GetSession().OpenSession())
                 {
-                    dbContext.Maps.AddOrUpdate(testData.Maps.ToArray());
-                    dbContext.SaveChanges();
+                    foreach (var map in testData.Maps)
+                    {
+                        if (session.Query<Map>().Any(_ => _.Id == map.Id))
+                        {
+                            session.Merge(map);
+                        }
+                        else
+                        {
+                            session.Save(map);
+                        }
+                    }
+                    session.Flush();
                 }
             }
         }
@@ -35,11 +48,19 @@ namespace Okarta.Web
             {
                 var processors = new[]
                 {
-                    typeof (JsonProcessor)
+                    typeof (JsonProcessor),
+                    typeof(CustomViewProcessor )
                 };
 
                 return NancyInternalConfiguration.WithOverrides(x => x.ResponseProcessors = processors);
             }
+        }
+
+        protected override void ConfigureConventions(NancyConventions conventions)
+        {
+            base.ConfigureConventions(conventions);
+
+            conventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("/assets", "/assets"));
         }
     }
 }

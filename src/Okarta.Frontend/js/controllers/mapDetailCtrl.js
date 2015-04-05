@@ -1,6 +1,6 @@
 angular.module('app.controllers').controller('MapDetailCtrl', ['$scope', '$http',  '$routeParams',
   function ($scope, $http,  $routeParams) {
-    $http.get("/assets/js/data/maps.json").success(function(data, status, headers, config) {
+    $http.get("/api/maps").success(function(data, status, headers, config) {
       for(var i in data) {
         var map = data[i];
         if(map.id ==  $routeParams.mapId) {

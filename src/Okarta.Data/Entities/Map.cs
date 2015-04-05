@@ -2,8 +2,8 @@
 {
     public class Map : Entity
     {
-        public string Name { get; set; }
-        public float? Lat { get; set; }
-        public float? Lon { get; set; }
+        public virtual string Name { get; set; }
+        public virtual float? Lat { get; set; }
+        public virtual float? Lon { get; set; }
     }
 }

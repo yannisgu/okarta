@@ -8,7 +8,7 @@ angular.module('app.controllers').controller('MapOverviewCtrl', ['$scope', '$htt
       }
     });
 
-    $http.get("/assets/js/data/maps.json").success(function(data, status, headers, config) {
+    $http.get("/api/maps").success(function(data, status, headers, config) {
       $scope.maps = data;
       for(var i in $scope.maps) {
         var map = $scope.maps[i];

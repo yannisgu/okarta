@@ -6,14 +6,14 @@ var concat = require('gulp-concat');
 var fs = require("fs");
 
 var htmlPath = "./build"
-var assetsPath = "./build/assets";
+var assetsPath = "./src/Okarta.Web/assets";
 var srcPath = "./src/Okarta.Frontend"
 
 
 gulp.task('default', ['livereload', 'build', 'watch', 'serve'],function() {
 });
 
-gulp.task('build', ['html', 'templates', 'vendor', 'js', 'less', 'image'],function() {
+gulp.task('build', ['html', 'templates', "msbuild", 'vendor', 'js', 'less', 'image'],function() {
 });
 
 
@@ -52,6 +52,16 @@ gulp.task('html', function () {
         }));
 });
 
+gulp.task('msbuild', function() {
+  exec("msbuild", function(error, stdout, stderr) {
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if (error !== null) {
+        console.log('exec error: ' + error);
+    }
+  });
+});
+
 
 var templateCache = require('gulp-angular-templatecache');
 
@@ -59,7 +69,7 @@ gulp.task('templates', function() {
   gulp.src(srcPath + '/templates/**/*.html')
         .pipe(plumber())
         .pipe(templateCache({standalone: true}))
-        .pipe(gulp.dest('build/assets/js'))
+        .pipe(gulp.dest(assetsPath + '/js'))
         .pipe(livereload({
               auto: false
         }));
@@ -106,6 +116,7 @@ gulp.task('watch', function() {
     srcPath + '/templates/**/*.*'
   ], ['templates']);
   gulp.watch(["./bower_components/**/*.*"], ['vendor']);
+  gulp.watch(["./src/**/*.cs"], ["msbuild"])
 });
 
 var exec = require('child_process').exec,
@@ -113,25 +124,38 @@ var exec = require('child_process').exec,
 	connectLivereload = require('connect-livereload'),
 	connectServeStatic = require('serve-static'),
 	http = require('http'),
-	open = require('open');
+	open = require('open'),
+  path = require("path");
 
 gulp.task('serve', function() {
-	var app = connect()
-			.use(connectLivereload())
-			.use(connectServeStatic('build'))
-            .use(connectServeStatic(assetsPath + '/..')),
-		server = http.createServer(app).listen(9002);
+  var applicationPath = path.resolve(".\\src\\Okarta.Web");
+  var iisExpressPath = "C:\\Program Files (x86)\\IIS Express\\iisexpress.exe"
+  var args = ["/path:" + applicationPath, "/port:9002"]
+  var spawn = require('child_process').spawn;
+  var iisexpress = spawn(iisExpressPath, args, {detached: true});
 
-	server.on('listening', function() {
-		open('http://localhost:9002');
-	});
+  iisexpress.stdout.on('data', function (data) {
+    console.log('stdout: ' + data);
+  });
+
+  iisexpress.stderr.on('data', function (data) {
+    console.log('stderr: ' + data);
+  });
+
+  iisexpress.on('close', function (code) {
+    console.log('child process exited with code ' + code);
+  });
 
 	// Clean on exit
-	process.on('SIGINT', function() {
+  function onClose() {
+    iisexpress.kill();
 		exec('gulp clean', function() {
 			process.exit(0);
 		});
-	});
+  }
+  process.on("uncaughtException", onClose);
+  process.on("SIGINT", onClose);
+  process.on("SIGTERM", onClose);
 });
 
 var gulp = require('gulp'),

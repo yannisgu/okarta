@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Okarta.Web", "src\Okarta.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Okarta.Data", "src\Okarta.Data\Okarta.Data.csproj", "{D8A3F2D0-D531-4259-917F-4C2C933DE1DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BamPi.NHibernate", "src\BamPi.NHibernate\BamPi.NHibernate.csproj", "{E9FDCE87-C6DA-455B-AEE4-AAFCC0F70FBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D8A3F2D0-D531-4259-917F-4C2C933DE1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8A3F2D0-D531-4259-917F-4C2C933DE1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8A3F2D0-D531-4259-917F-4C2C933DE1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9FDCE87-C6DA-455B-AEE4-AAFCC0F70FBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9FDCE87-C6DA-455B-AEE4-AAFCC0F70FBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9FDCE87-C6DA-455B-AEE4-AAFCC0F70FBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9FDCE87-C6DA-455B-AEE4-AAFCC0F70FBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
