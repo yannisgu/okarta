@@ -4,9 +4,13 @@ var path = require('path');
 var plumber = require('gulp-plumber');
 var concat = require('gulp-concat');
 var fs = require("fs");
+var spawn = require('child_process').spawn;
+var spawnSync = require('child_process').spawnSync;
+var path = require("path");
 
+var wwwRoot = path.resolve(".\\wwwroot");
 var htmlPath = "./build"
-var assetsPath = "./src/Okarta.Web/assets";
+var assetsPath = wwwRoot + "/assets";
 var srcPath = "./src/Okarta.Frontend"
 
 
@@ -27,6 +31,11 @@ gulp.task('vendor', function() {
 })
 
 gulp.task('js', function() {
+
+  gulp.src('./src/Okarta.Web.Host/*.cs')
+          .pipe(plumber())
+          .pipe(gulp.dest(wwwRoot + '/bin'));
+
   gulp.src([
     srcPath + '/js/**/module.js',
     srcPath + '/js/**/*.js']).
@@ -52,14 +61,33 @@ gulp.task('html', function () {
         }));
 });
 
+
 gulp.task('msbuild', function() {
-  exec("msbuild", function(error, stdout, stderr) {
-    console.log('stdout: ' + stdout);
-    console.log('stderr: ' + stderr);
-    if (error !== null) {
-        console.log('exec error: ' + error);
-    }
-  });
+  if(hostProcess) {
+    hostProcess.kill();
+  }
+  var msbuild = "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\msbuild.exe"
+  var argsHost = [".\\src\\Okarta.Web.Host\\Okarta.Web.Host.csproj",  "/nologo", "/verbosity:m",  "/t:Build", "/p:Configuration=Debug"]
+  var msbuildHost = spawnSync(msbuild, argsHost);
+  process.stdout.write(msbuildHost.stdout);
+
+
+  var argsWeb = [".\\src\\Okarta.Web\\Okarta.Web.csproj", "/nologo", "/verbosity:m",  "/t:Build",
+    "/t:pipelinePreDeployCopyAllFilesToOneFolder",
+    "/p:AutoParameterizationWebConfigConnectionStrings=false;Configuration=Debug",
+    "/p:SolutionDir=.\\"];
+
+  var msbuildWeb = spawnSync(msbuild, argsWeb);
+  if(msbuildWeb.stdout) {
+    process.stdout.write(msbuildWeb.stdout);
+  }
+  if(msbuildWeb.stderr) {
+    process.stderr.write(msbuildWeb.stderr);
+  }
+
+  return gulp.src('./src/Okarta.Web.Host/bin/Debug/**')
+        .pipe(plumber())
+        .pipe(gulp.dest(wwwRoot + '/bin'));
 });
 
 
@@ -116,7 +144,7 @@ gulp.task('watch', function() {
     srcPath + '/templates/**/*.*'
   ], ['templates']);
   gulp.watch(["./bower_components/**/*.*"], ['vendor']);
-  gulp.watch(["./src/**/*.cs"], ["msbuild"])
+  gulp.watch(["./src/**/*.cs"], ["msbuild", 'serve'])
 });
 
 var exec = require('child_process').exec,
@@ -124,36 +152,33 @@ var exec = require('child_process').exec,
 	connectLivereload = require('connect-livereload'),
 	connectServeStatic = require('serve-static'),
 	http = require('http'),
-	open = require('open'),
-  path = require("path");
+	open = require('open');
 
-gulp.task('serve', function() {
-  var applicationPath = path.resolve(".\\src\\Okarta.Web");
-  var iisExpressPath = "C:\\Program Files (x86)\\IIS Express\\iisexpress.exe"
-  var args = ["/path:" + applicationPath, "/port:9002"]
-  var spawn = require('child_process').spawn;
-  var iisexpress = spawn(iisExpressPath, args, {detached: true});
+var hostProcess;
+gulp.task('serve', ['msbuild'], function() {
+  var hostPath = path.resolve(".\\wwwroot\\bin\\Okarta.Web.Host.exe");
 
-  iisexpress.stdout.on('data', function (data) {
+  hostProcess = spawn(hostPath, [], {detached: true, cwd: ".\\wwwroot"});
+
+  hostProcess.stdout.on('data', function (data) {
     console.log('stdout: ' + data);
   });
 
-  iisexpress.stderr.on('data', function (data) {
+  hostProcess.stderr.on('data', function (data) {
     console.log('stderr: ' + data);
   });
 
-  iisexpress.on('close', function (code) {
+  hostProcess.on('close', function (code) {
     console.log('child process exited with code ' + code);
   });
 
-	// Clean on exit
   function onClose() {
-    iisexpress.kill();
+    hostProcess.kill();
 		exec('gulp clean', function() {
 			process.exit(0);
 		});
   }
-  process.on("uncaughtException", onClose);
+
   process.on("SIGINT", onClose);
   process.on("SIGTERM", onClose);
 });

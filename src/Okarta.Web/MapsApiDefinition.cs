@@ -12,7 +12,7 @@ namespace Okarta.Web
     {
         public MapsApiDefinition()
         {
-            DataContext = new BamPiNHibernateDataContext(new DataSession().GetSession());
+            DataContext = new BamPiNHibernateDataContext(new SessionProvider().GetSessionFactory());
 
             Get["/maps"] = Query<Map>();
         }

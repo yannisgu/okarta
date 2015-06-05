@@ -36,12 +36,6 @@
     <Reference Include="ConfigR">
       <HintPath>..\..\packages\ConfigR.0.12.0\lib\net45\ConfigR.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="FluentNHibernate">
       <HintPath>..\..\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -86,11 +80,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContext.cs" />
-    <Compile Include="DataSession.cs" />
+    <Compile Include="SessionProvider.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Map.cs" />
-    <Compile Include="OkartaMigrationConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

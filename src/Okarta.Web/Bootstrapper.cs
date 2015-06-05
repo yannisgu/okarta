@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.IO;
@@ -24,7 +25,7 @@ namespace Okarta.Web
             if (Config.Global.Get<bool>("insertTestData")) 
             { 
                 var testData = JsonConvert.DeserializeObject<TestData>(File.ReadAllText("TestData.json"));
-                using (var session = (new DataSession()).GetSession().OpenSession())
+                using (var session = (new SessionProvider().GetSessionFactory().OpenSession()))
                 {
                     foreach (var map in testData.Maps)
                     {

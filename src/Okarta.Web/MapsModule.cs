@@ -1,5 +1,4 @@
 ﻿using System;
-using ConfigR;
 using Nancy;
 
 namespace Okarta.Web
@@ -10,5 +9,6 @@ namespace Okarta.Web
         {
             new MapsApiDefinition().RegisterNancyModule(this);
         }
+        
     }
 }
