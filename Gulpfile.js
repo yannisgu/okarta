@@ -32,10 +32,6 @@ gulp.task('vendor', function() {
 
 gulp.task('js', function() {
 
-  gulp.src('./src/Okarta.Web.Host/*.cs')
-          .pipe(plumber())
-          .pipe(gulp.dest(wwwRoot + '/bin'));
-
   gulp.src([
     srcPath + '/js/**/module.js',
     srcPath + '/js/**/*.js']).
@@ -67,7 +63,7 @@ gulp.task('msbuild', function() {
     hostProcess.kill();
   }
   var msbuild = "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\msbuild.exe"
-  var argsHost = [".\\src\\Okarta.Web.Host\\Okarta.Web.Host.csproj",  "/nologo", "/verbosity:m",  "/t:Build", "/p:Configuration=Debug"]
+  var argsHost = [".\\src\\Okarta.Web.Host\\Okarta.Web.Host.csproj",  "/nologo", "/verbosity:n",  "/t:Build", "/p:Configuration=Debug"]
   var msbuildHost = spawnSync(msbuild, argsHost);
   process.stdout.write(msbuildHost.stdout);
 
@@ -144,7 +140,7 @@ gulp.task('watch', function() {
     srcPath + '/templates/**/*.*'
   ], ['templates']);
   gulp.watch(["./bower_components/**/*.*"], ['vendor']);
-  gulp.watch(["./src/**/*.cs"], ["msbuild", 'serve'])
+  gulp.watch(["./src/**/*.cs", "./src/**/*.csproj"], ["msbuild", 'serve'])
 });
 
 var exec = require('child_process').exec,

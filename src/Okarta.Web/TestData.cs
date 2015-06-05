@@ -8,8 +8,8 @@ namespace Okarta.Web
 {
     public class TestData
     {
-        public List<Map> Maps { get; set; } 
+        public List<Map> Maps { get; set; }
 
-
+        public List<User> Users { get; set; } 
     }
 }

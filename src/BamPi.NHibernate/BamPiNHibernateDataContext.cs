@@ -14,7 +14,7 @@ namespace BamPi.NHibernate
 
         public BamPiNHibernateDataContext(ISessionFactory sessionFactory)
         {
-            this.sessionFactory = sessionFactory;
+            this.sessionFactory = sessionFactory;                      
         }
 
         public async Task<IEnumerable<T>> Query<T>(Func<IQueryable<T>, IQueryable<T>> query) where T : class

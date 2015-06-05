@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
@@ -10,10 +11,13 @@ using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
 using Nancy.Responses.Negotiation;
+using Nancy.TinyIoc;
 using Newtonsoft.Json;
+using NHibernate;
 using NHibernate.Linq;
 using Okarta.Data;
 using Okarta.Data.Entities;
+using Nancy.Authentication.Token;
 
 namespace Okarta.Web
 {
@@ -27,20 +31,31 @@ namespace Okarta.Web
                 var testData = JsonConvert.DeserializeObject<TestData>(File.ReadAllText("TestData.json"));
                 using (var session = (new SessionProvider().GetSessionFactory().OpenSession()))
                 {
-                    foreach (var map in testData.Maps)
-                    {
-                        if (session.Query<Map>().Any(_ => _.Id == map.Id))
-                        {
-                            session.Merge(map);
-                        }
-                        else
-                        {
-                            session.Save(map);
-                        }
-                    }
+                    SetupTestData(testData.Users, session);
+                    SetupTestData(testData.Maps, session);
                     session.Flush();
                 }
             }
+        }
+
+        private static void SetupTestData<T>(List<T> items, ISession session) where T : Entity
+        {
+            foreach (var item in items)
+            {
+                if (session.Query<T>().Any(_ => _.Id == item.Id))
+                {
+                    session.Merge(item);
+                }
+                else
+                {
+                    session.Save(item);
+                }
+            }
+        }
+
+        protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
+        {
+           TokenAuthentication.Enable(pipelines, new TokenAuthenticationConfiguration(container.Resolve<ITokenizer>()));
         }
 
         protected override NancyInternalConfiguration InternalConfiguration

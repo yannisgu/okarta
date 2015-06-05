@@ -12,5 +12,12 @@
             "lon": 7.25,
             "name": "La Berra"
         }
+    ],
+    "users": [
+        {
+            "id": "E7A80867-6A7A-4C45-A9F6-E55223E19E0B",
+            "username": "a",
+            "EscapedPassword":  "1000:AwXNluygsWarqnfYWbkQUMmUMY5WG2/e:kPRAVGYCfFeP2+863xQQ8JfWbQBe9RZU" // b
+        }
     ]
 }
