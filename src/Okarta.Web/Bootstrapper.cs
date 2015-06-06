@@ -18,6 +18,8 @@ using NHibernate.Linq;
 using Okarta.Data;
 using Okarta.Data.Entities;
 using Nancy.Authentication.Token;
+using Okarta.Data.Implementation;
+using Okarta.Data.Services;
 
 namespace Okarta.Web
 {
@@ -36,6 +38,16 @@ namespace Okarta.Web
                     session.Flush();
                 }
             }
+        }
+
+        protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
+        {
+            base.ConfigureRequestContainer(container, context);
+
+
+            container.Register<SessionProvider>().AsSingleton();
+            container.Register<IMapsService, MapsService>();
+            container.Register<IUserService, UserService>();
         }
 
         private static void SetupTestData<T>(List<T> items, ISession session) where T : Entity

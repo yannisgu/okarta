@@ -8,17 +8,15 @@ using Nancy.Security;
 
 namespace Okarta.Web
 {
-    public class MapsModule : NancyModule
+    public class UserApi : BaseApiModule
     {
-        public MapsModule(ITokenizer tokenizer)
-            : base("/api")
+        public UserApi(ITokenizer tokenizer, IUserService userService)
+            : base("/api", userService)
         {
-            new MapsApiDefinition().RegisterNancyModule(this);
-
             Post["/login"] = _ =>
             {
                 var user = JsonConvert.DeserializeObject<LoginViewModel>(Context.Request.Body.AsString());
-                var userIdentity = new UserService().ValidatedUser(user.Username, user.Password);
+                var userIdentity = userService.ValidatedUser(user.Username, user.Password);
                 if (userIdentity == null)
                 {
                     return HttpStatusCode.Unauthorized;

@@ -14,6 +14,12 @@ namespace Okarta.Data
 {
     public class SessionProvider
     {
+        private ISessionFactory factory;
+        public ISessionFactory Factory
+        {
+            get { return factory ?? (factory = GetSessionFactory()); }
+        }
+
         public ISessionFactory GetSessionFactory()
         {
             var connectionString = Config.Global.Get<string>("connection");
