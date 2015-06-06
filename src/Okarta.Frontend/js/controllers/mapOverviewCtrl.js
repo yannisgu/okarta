@@ -1,5 +1,5 @@
-angular.module('app.controllers').controller('MapOverviewCtrl', ['$scope', '$http',
-  function ($scope, $http) {
+angular.module('app.controllers').controller('MapOverviewCtrl', ['$scope', '$http', 'userService',
+  function ($scope, $http, userService) {
     angular.extend($scope, {
       myCenter: {
         lat: 55.6760968,
@@ -7,7 +7,7 @@ angular.module('app.controllers').controller('MapOverviewCtrl', ['$scope', '$htt
         zoom: 4
       }
     });
-
+    
     $http.get("/api/maps").success(function(data, status, headers, config) {
       $scope.maps = data;
       for(var i in $scope.maps) {

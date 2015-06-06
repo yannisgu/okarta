@@ -4,6 +4,7 @@ using Nancy.Extensions;
 using Newtonsoft.Json;
 using Okarta.Data;
 using Nancy.Authentication.Token;
+using Nancy.Security;
 
 namespace Okarta.Web
 {
@@ -27,6 +28,12 @@ namespace Okarta.Web
                 {
                     Token = token,
                 };
+            };
+
+            Get["/me"] = _ =>
+            {
+                this.RequiresAuthentication();
+                return Context.CurrentUser;
             };
         }
 

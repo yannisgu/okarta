@@ -10,7 +10,7 @@ var path = require("path");
 
 var wwwRoot = path.resolve(".\\wwwroot");
 var htmlPath = "./build"
-var assetsPath = wwwRoot + "/assets";
+var assetsPath = wwwRoot + "/bin/assets";
 var srcPath = "./src/Okarta.Frontend"
 
 

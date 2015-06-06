@@ -15,6 +15,7 @@ namespace Okarta.Web
             DataContext = new BamPiNHibernateDataContext(new SessionProvider().GetSessionFactory());
 
             Get["/maps"] = Query<Map>();
+            
         }
     }
 }

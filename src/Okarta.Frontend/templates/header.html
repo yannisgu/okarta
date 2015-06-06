@@ -1,0 +1,14 @@
+<div ng-controller="HeaderCtrl" >
+    <div ng-if="isLoggedIn">
+      {{user.userName}}
+      <a href="" ng-click="logout()">Logout</a>
+    </div>
+    <div ng-if="!isLoggedIn">
+        <form ng-submit="login(loginUserName, loginPassword)">
+            Username: <input type="text" ng-model="loginUserName" />
+            Password: <input type="text" ng-model="loginPassword" />
+            <input type="submit" value="Login" />
+            <span class="error">{{error}}</span>
+        </form>
+    </div>
+</div>
