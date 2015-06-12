@@ -1,5 +1,13 @@
-angular.module('app.controllers').controller('MapDetailCtrl', ['$scope', '$http',  '$routeParams',
-  function ($scope, $http,  $routeParams) {
+angular.module('app.controllers').controller('MapDetailCtrl', ['$scope', '$http',  '$routeParams', 'openLayerService',
+  function ($scope, $http,  $routeParams, openLayerService) {
+      $scope.openLayerConfig = openLayerService.config;
+
+      $scope.buyValues = {};
+
+      $scope.buy = function() {
+          console.log($scope.buyValues)
+      }
+
     $http.get("/api/maps").success(function(data, status, headers, config) {
       for(var i in data) {
         var map = data[i];

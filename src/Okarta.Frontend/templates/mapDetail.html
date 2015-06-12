@@ -1,12 +1,29 @@
 <div ng-show="map">
+    <a ng-href="/#/map/{{map.id}}/edit">Edit</a>
   <h1>{{map.name}}</h1>
+  <div class="row">
+      <label>Price:</label>
+      <span>{{map.downloadPrice}}</span>
+  </div>
+  <h2>Buy</h2>
+  <div class="row">
+      <label>Number of maps to print:</label>
+      <input ng-model="buyValues.count" />
+  </div>
+  <form ng-submit="buy()">
+      <div class="row">
+          <label>For usage on:</label>
+          <input ng-model="buyValues.date" />
+      </div>
+      <div class="row">
+          <input type="submit" value="Add to cart"/>
+      </div>
+  </form>
+
+  </div>
   <openlayers ol-center="mapCenter"  custom-layers="true">
-    <ol-layer ol-layer-properties="{'source':
-      {
-      'type': 'BingMaps',
-        'key': 'ArrGmnldg4Td0C-f2G3mORjdryVUOF3S0P0YGFB_Q6sVl-BMd8Zg20xsGk11Int6',
-        'imagerySet': 'Road'
-      }}"></ol-layer>
+    <ol-layer ol-layer-properties="openLayerConfig"></ol-layer>
     <ol-marker ng-repeat="marker in markers" lat="marker.lat" lon="marker.lon"></ol-marker>
   </openlayers>
+
 </div>

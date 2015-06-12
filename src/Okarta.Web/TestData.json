@@ -4,20 +4,23 @@
             "id": "{C117AF21-B7B1-4704-828E-9E9AF32BBBB8}",
             "lat": 46.8,
             "lon": 7.14,
-            "name": "Fribourg"
+            "name": "Fribourg",
+            "ownerId": "E7A80867-6A7A-4C45-A9F6-E55223E19E0B",
+            "downloadPrice": 1.5
         },
         {
             "id": "{D322E907-5A36-4D9B-87CA-C18F4273F163}",
             "lat": 46.644,
             "lon": 7.25,
-            "name": "La Berra"
+            "name": "La Berra",
+            "ownerId": "E7A80867-6A7A-4C45-A9F6-E55223E19E0B"
         }
     ],
     "users": [
         {
             "id": "E7A80867-6A7A-4C45-A9F6-E55223E19E0B",
             "username": "a",
-            "EscapedPassword":  "1000:AwXNluygsWarqnfYWbkQUMmUMY5WG2/e:kPRAVGYCfFeP2+863xQQ8JfWbQBe9RZU" // b
+            "EscapedPassword": "1000:AwXNluygsWarqnfYWbkQUMmUMY5WG2/e:kPRAVGYCfFeP2+863xQQ8JfWbQBe9RZU" // b
         }
     ]
 }

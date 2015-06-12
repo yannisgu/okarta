@@ -1,0 +1,23 @@
+<form ng-submit="save()">
+    <div class="row">
+        <label>Name:</label>
+        <span class="value">
+            <input type="text" ng-model="map.name" />
+        </span>
+    </div>
+    <div class="row">
+        <label>Price:</label>
+        <span class="value">
+            <input type="text" ng-model="map.downloadPrice" />
+        </span>
+    </div>
+    <input type="Submit" value="Save" />
+
+
+</form>
+
+<openlayers ol-center="mapCenter"  custom-layers="true">
+      <ol-layer ol-layer-properties="openLayerConfig"></ol-layer>
+      <ol-marker ng-repeat="marker in markers" lat="marker.lat" lon="marker.lon"></ol-marker>
+      <ol-draw markers="markers"></ol-draw>
+</openlayers>

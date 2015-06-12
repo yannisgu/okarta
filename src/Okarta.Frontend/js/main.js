@@ -4,6 +4,7 @@ angular.module('app', ["ngRoute", "ngCookies", "templates", "app.controllers", "
   .config(['$routeProvider', function($routeProvider) {
        $routeProvider.
            when('/index', {templateUrl: 'mapOverview.html',   controller: "MapOverviewCtrl"}).
+           when('/map/:mapId/edit', {templateUrl: 'editMap.html', controller: "EditMapCtrl"}).
            when('/map/:mapId', {templateUrl: 'mapDetail.html', controller: "MapDetailCtrl"}).
            otherwise({redirectTo: '/index'})
    }]);

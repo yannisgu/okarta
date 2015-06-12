@@ -1,6 +1,6 @@
 <div ng-controller="HeaderCtrl" >
     <div ng-if="isLoggedIn">
-      {{user.userName}}
+        {{user.userName}}
       <a href="" ng-click="logout()">Logout</a>
     </div>
     <div ng-if="!isLoggedIn">
@@ -11,4 +11,5 @@
             <span class="error">{{error}}</span>
         </form>
     </div>
+    
 </div>

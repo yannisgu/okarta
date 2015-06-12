@@ -16,6 +16,23 @@ namespace Okarta.Data.Implementation
             return Session.Query<Map>();
         }
 
+        public Map Get(Guid guid)
+        {
+            return Session.Get<Map>(guid);
+        }
+
+        public void Add(Map map)
+        {
+            Session.Save(map);
+            Session.Flush();
+        }
+
+        public void Update(Map map)
+        {
+            Session.Merge(map);
+            Session.Flush();
+        }
+
         public MapsService(SessionProvider provider) : base(provider)
         {
         }

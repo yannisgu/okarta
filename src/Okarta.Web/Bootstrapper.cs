@@ -48,6 +48,7 @@ namespace Okarta.Web
             container.Register<SessionProvider>().AsSingleton();
             container.Register<IMapsService, MapsService>();
             container.Register<IUserService, UserService>();
+            container.Register<ICartService, CartService>();
         }
 
         private static void SetupTestData<T>(List<T> items, ISession session) where T : Entity

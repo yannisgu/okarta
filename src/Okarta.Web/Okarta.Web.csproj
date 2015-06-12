@@ -114,6 +114,7 @@
     <Compile Include="ApiModule.cs" />
     <Compile Include="BaseApiModule.cs" />
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="CartApi.cs" />
     <Compile Include="CustomViewProcessor.cs" />
     <Compile Include="HomeModule.cs" />
     <Compile Include="MapsApi.cs" />

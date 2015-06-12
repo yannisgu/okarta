@@ -12,7 +12,7 @@ namespace Okarta.Web
         {
             get
             {
-                if (string.IsNullOrEmpty(Context.CurrentUser.UserName))
+                if (Context.CurrentUser == null || string.IsNullOrEmpty(Context.CurrentUser.UserName))
                 {
                     return null;
                 }
