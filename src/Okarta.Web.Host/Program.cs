@@ -12,9 +12,12 @@ namespace Okarta.Web.Host
     {
         static void Main(string[] args)
         {
-            using (var host = new NancyHost(new Uri("http://localhost:1235")))
+            var url = "http://localhost:1235";
+            Console.Out.WriteLine("Start server on " + url);
+            using (var host = new NancyHost(new Uri(url)))
             {
                 host.Start();
+                Console.Out.WriteLine("Started server. Open " + url);
                 Console.ReadLine();
             }
         }

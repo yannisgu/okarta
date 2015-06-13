@@ -27,15 +27,18 @@ namespace Okarta.Web
     {
         public Bootstrapper()
         {
+            Console.Out.WriteLine("Start bootstrapper");
             Config.Global.LoadScriptFile("Settings.csx");
             if (Config.Global.Get<bool>("insertTestData")) 
             { 
                 var testData = JsonConvert.DeserializeObject<TestData>(File.ReadAllText("TestData.json"));
                 using (var session = (new SessionProvider().GetSessionFactory().OpenSession()))
                 {
+                    Console.Out.WriteLine("Start setup test data");
                     SetupTestData(testData.Users, session);
                     SetupTestData(testData.Maps, session);
                     session.Flush();
+                    Console.Out.WriteLine("Finished setup test data");
                 }
             }
         }
@@ -43,7 +46,6 @@ namespace Okarta.Web
         protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
         {
             base.ConfigureRequestContainer(container, context);
-
 
             container.Register<SessionProvider>().AsSingleton();
             container.Register<IMapsService, MapsService>();

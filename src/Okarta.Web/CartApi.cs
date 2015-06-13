@@ -16,14 +16,20 @@ namespace Okarta.Web
         {
             Get["/"] = _  => 
             {
-                return cartService.GetCartForUser(User);
+                var maps = cartService.GetCartForUser(User);
+                return
+                    maps.Select(m =>
+                    {
+                        m.User = null;
+                        return m;
+                    });
             };
 
 
             Post["/"] = _ =>
             {
                 var cartItem = JsonConvert.DeserializeObject<CartItem>(Request.Body.AsString());
-                cartItem.UserId = User.Id;
+                cartItem.User = User;
                 cartService.Add(cartItem);
                 return null;
             };

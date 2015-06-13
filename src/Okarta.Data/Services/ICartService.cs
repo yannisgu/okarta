@@ -9,7 +9,7 @@ namespace Okarta.Data.Services
 {
     public interface ICartService
     {
-        IList<CartItem> GetCartForUser(User user);
+        IEnumerable<CartItem> GetCartForUser(User user);
         void Add(CartItem cartItem);
     }
 }

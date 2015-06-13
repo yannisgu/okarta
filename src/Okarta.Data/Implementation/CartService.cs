@@ -9,9 +9,10 @@ namespace Okarta.Data.Implementation
 {
     public class CartService : DataService, ICartService
     {
-        public IList<CartItem> GetCartForUser(User user)
+        public IEnumerable<CartItem> GetCartForUser(User user)
         {
-            return Session.Query<CartItem>().Where(_ => _.UserId == user.Id).Fetch(_ => _.Map).ToList();
+            return Session.Query<CartItem>()
+            .Where(_ => _.User.Id.ToString() == user.Id.ToString()).ToList();
         }
 
         public void Add(CartItem cartItem)
