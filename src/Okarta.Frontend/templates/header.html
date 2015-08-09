@@ -2,6 +2,11 @@
     <div ng-if="isLoggedIn">
         {{user.userName}}
       <a href="" ng-click="logout()">Logout</a>
+      <div class="cart">
+          <ul>
+              <li class="cart-item" ng-repeat="item in cartItems">{{item.map.name}} {{item.map.downloadPrice * item.amount}}</li>
+          </ul>
+      </div>
     </div>
     <div ng-if="!isLoggedIn">
         <form ng-submit="login(loginUserName, loginPassword)">
@@ -11,5 +16,4 @@
             <span class="error">{{error}}</span>
         </form>
     </div>
-    
 </div>

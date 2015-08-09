@@ -1,11 +1,15 @@
-angular.module('app.controllers').controller('MapDetailCtrl', ['$scope', '$http',  '$routeParams', 'openLayerService',
-  function ($scope, $http,  $routeParams, openLayerService) {
+angular.module('app.controllers').controller('MapDetailCtrl', ['$scope', '$http',  '$routeParams', 'openLayerService', "cartService",
+  function ($scope, $http,  $routeParams, openLayerService, cartService) {
       $scope.openLayerConfig = openLayerService.config;
 
       $scope.buyValues = {};
 
       $scope.buy = function() {
-          console.log($scope.buyValues)
+          cartService.add({
+              map: $scope.map,
+              amount: $scope.buyValues.count,
+              type: 2
+          });
       }
 
     $http.get("/api/maps").success(function(data, status, headers, config) {

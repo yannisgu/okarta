@@ -1,5 +1,5 @@
-angular.module('app.controllers').controller('HeaderCtrl', ['$scope', '$http', 'userService',
-  function ($scope, $http, userService) {
+angular.module('app.controllers').controller('HeaderCtrl', ['$scope', '$http', 'userService', "cartService",
+  function ($scope, $http, userService, cartService) {
       function loadCurrentUser() {
           userService.currentUser().then(function(user){
               $scope.isLoggedIn = true;
@@ -25,5 +25,10 @@ angular.module('app.controllers').controller('HeaderCtrl', ['$scope', '$http', '
           userService.logout();
           loadCurrentUser();
       }
+
+      cartService.get().then(function(data){
+          console.log(data);
+          $scope.cartItems = data;
+      });
   }]
 );
